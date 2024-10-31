@@ -27,7 +27,7 @@ class KotlinDemoApplicationTests @Autowired constructor(
 	fun `get users`() {
 
 		mockMvc.get("/api/articles")
-//			.andDo { print() }
+			.andDo { print() }
 			.andExpect {
 				status { isOk() }
 				content {
@@ -41,7 +41,7 @@ class KotlinDemoApplicationTests @Autowired constructor(
 	fun `create user`() {
 
 		for (i in 1..1) run {
-			val article = Article(title = i.toString() , content = "testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest")
+			val article = Article(title = i.toString() , content = "testtesttesttesttesttesttesttesttttesttesttest")
 
 			mockMvc.post("/api/articles") {
 				contentType = MediaType.APPLICATION_JSON

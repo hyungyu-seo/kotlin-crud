@@ -6,9 +6,9 @@ import com.example.kotlindemo.service.ArticleService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
 import java.util.*
 import javax.validation.Valid
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 @RestController
 @RequestMapping("/api")
@@ -18,8 +18,13 @@ class ArticleController(
 ) {
 
     @GetMapping("/articles")
-    fun getAllArticles(): List<Article> =
-        articleService.getArticles(0)
+    fun getAllArticles(): ResponseEntity<StreamingResponseBody> {
+        val body = articleService.getResult()
+        return ResponseEntity.ok(body)
+    }
+
+
+
 
 
     @PostMapping("/articles")
