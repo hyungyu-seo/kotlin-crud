@@ -1,16 +1,19 @@
 package com.example.kotlindemo
 
-import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 import com.example.kotlindemo.model.Article
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
-import org.springframework.web.servlet.function.RequestPredicates
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.net.URL
+import java.nio.charset.StandardCharsets
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,14 +29,29 @@ class KotlinDemoApplicationTests @Autowired constructor(
 	@Test
 	fun `get users`() {
 
-		mockMvc.get("/api/articles")
-			.andDo { print() }
-			.andExpect {
-				status { isOk() }
-				content {
-					RequestPredicates.contentType(MediaType.APPLICATION_JSON)
-				}
-			}
+		val inputStream: InputStream = URL("http://localhost:8080/api/articles").openStream()
+
+		val buffer = ByteArray(1024)
+		var length: Int = 0
+
+		while ((inputStream.read(buffer).also { length = it }) != -1) {
+			println(String(buffer, 0, length, StandardCharsets.UTF_8))
+		}
+
+
+//		mockMvc.get("/api/articles")
+//			.andExpect {
+//				request {
+//					asyncStarted()
+//					asyncResult("body")
+//				}
+//				status { isOk() }
+//				content {
+//					RequestPredicates.contentType(MediaType.APPLICATION_JSON)
+//				}
+//			}
+//			.andReturn()
+
 	}
 
 

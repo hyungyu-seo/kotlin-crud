@@ -4,9 +4,12 @@ import com.example.kotlindemo.model.Article
 import com.example.kotlindemo.repository.ArticleRepository
 import com.example.kotlindemo.service.ArticleService
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
+import java.io.OutputStream
 import java.util.*
 import javax.validation.Valid
 
@@ -20,7 +23,10 @@ class ArticleController(
     @GetMapping("/articles")
     fun getAllArticles(): ResponseEntity<StreamingResponseBody> {
         val body = articleService.getResult()
-        return ResponseEntity.ok(body)
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(body)
     }
 
 

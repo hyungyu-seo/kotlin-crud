@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.StandardCharsets
+import java.util.Date
 import java.util.stream.Stream
 
 
@@ -37,9 +38,12 @@ class ArticleService(
 
     private fun fillStream(outputStream: OutputStream) {
         try {
-            articleRepository.find1000Article(1).use { orderStream ->
-                orderStream.forEach { article: Article -> processOrder(outputStream, article) }
-            }
+            println("실행 시간(ms): " + Date(System.currentTimeMillis()))
+            val test = articleRepository.find1000Article(1)
+            println("실행 시간(ms) 2: " + Date(System.currentTimeMillis()))
+            test.forEach { article: Article -> processOrder(outputStream, article) }
+
+            println("실행 시간(ms) 3: " + Date(System.currentTimeMillis()))
         } catch (e: IOException) {
             throw RuntimeException("Error processing stream", e)
         }
@@ -50,7 +54,6 @@ class ArticleService(
             val json: String = objectMapper.writeValueAsString(mapToArticle(article))
             outputStream.write((json + "\n").toByteArray(StandardCharsets.UTF_8))
         } catch (e: IOException) {
-            println(e.message)
             throw RuntimeException("Error writing order to output stream", e)
         }
     }
@@ -86,7 +89,7 @@ class ArticleService(
         //10000000
         val maxSize = 5000000
         val loopSize = (articles.size / maxSize)
-        for (i in 0 until loopSize) {
+        for (i in 0 ..loopSize) {
             val savaData = mutableListOf<Article>()
             val end = if (loopSize > 0) (i+1) * maxSize else articles.size
             savaData.addAll(articles.subList( i * maxSize, end))

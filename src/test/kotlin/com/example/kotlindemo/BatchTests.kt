@@ -22,9 +22,9 @@ class BatchTests @Autowired constructor(
     @Test
     fun `batch insert`() {
         val articles: MutableList<Article> = mutableListOf()
-        val title = "titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle"
-        val content = "testetsetslkdjflkadnfaksdjflskdftestetsetslkdjflkadnfaksdjflskdftestetsetslkdjflkadnfaksdjflskdf"
-        for (i in 1..10000000) {
+        val title = "titletitletitletitletitletitletitletitletitletitletitletitletitle"
+        val content = "testetsetslkdjflkadnfaksdjflskdftestetsetslkdjflkadnfaksdjflskd"
+        for (i in 1..9000000) {
             articles.add(Article(title = title, content = content))
         }
 

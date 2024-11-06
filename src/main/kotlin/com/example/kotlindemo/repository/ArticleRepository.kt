@@ -9,7 +9,7 @@ import java.util.stream.Stream
 @Repository
 interface ArticleRepository : JpaRepository<Article, Long> {
     fun findAllBy() : Stream<Article>
-    @Query(value = "SELECT * FROM article WHERE id > :id LIMIT 0, 2000000", nativeQuery = true)
+    @Query(value = "SELECT * FROM article WHERE id > :id LIMIT 0, 5000000", nativeQuery = true)
     fun find1000Article(id: Long) : Stream<Article>
 
     @Query(value = "SELECT * FROM article LIMIT 1", nativeQuery = true)
